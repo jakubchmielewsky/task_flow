@@ -1,8 +1,12 @@
 "use client";
 import { useState } from "react";
 import { FaEyeSlash, FaEye, FaSpinner } from "react-icons/fa";
+import { useAuthStore } from "@/store/AuthStore";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
+
 
 export default function Register() {
+  useAuthRedirect();
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -10,8 +14,9 @@ export default function Register() {
         confirmPassword: ""
     });
     const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+    const loading = useAuthStore((state) => state.loading);
+    const register = useAuthStore((state) => state.register);
 
     const toggleShowPassword = () => setShowPassword(!showPassword);
 
@@ -43,13 +48,9 @@ export default function Register() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (isLoading || !validateForm()) return;
+        if (loading || !validateForm()) return;
 
-        setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false);
-            // logika rejestracji
-        }, 2000);
+        register(formData.username,formData.email,formData.password);
     };
 
     return (
@@ -102,12 +103,12 @@ export default function Register() {
                     {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
                     <button
                         type="submit"
-                        disabled={isLoading}
+                        disabled={loading}
                         className={`flex items-center justify-center w-full min-h-[40px] mt-6 py-2 text-white bg-indigo-500 rounded-md ${
-                            isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-indigo-600"
+                            loading ? "opacity-50 cursor-not-allowed" : "hover:bg-indigo-600"
                         }`}
                     >
-                        {isLoading ? <FaSpinner className="animate-spin text-xl" /> : "Sign Up"}
+                        {loading ? <FaSpinner className="animate-spin text-xl" /> : "Sign Up"}
                     </button>
                 </form>
                 <p className="mt-4 text-sm text-gray-600">

@@ -1,11 +1,12 @@
 "use client";
 
-import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 
 export default function Home() {
-  useRequireAuth();
+  useAuthRedirect();
 
   return (
-    <></>
+    <>
+    <p>skjadhkj</p></>
   );
 }

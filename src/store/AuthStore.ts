@@ -1,5 +1,5 @@
 import {create} from 'zustand'
-import {onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from 'firebase/auth'
+import {onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User} from 'firebase/auth'
 import {auth} from '../firebase/firebaseConfig'
 import { FirebaseError } from 'firebase/app';
 
@@ -8,6 +8,7 @@ interface AuthState{
     loading: boolean;
     error: string | null;
     login: (email: string, password: string) => Promise<void>;
+    register: (username: string, email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
     setUser: (user: User | null) => void;
 }
@@ -31,6 +32,19 @@ export const useAuthStore = create<AuthState>((set)=>({
           }
     },
 
+    register: async (username, email, password) =>{
+      set({loading:true, error: null});
+      try {
+        await createUserWithEmailAndPassword(auth,email,password);
+      } catch (error) {
+        if(error instanceof FirebaseError)
+          set({error:error.message, loading:false})
+        else
+          set({ error: "Unexpected error", loading: false });
+        
+      }
+    },
+
     logout: async () => {
         set({ loading: true, error: null });
         try {
@@ -51,4 +65,5 @@ export const useAuthStore = create<AuthState>((set)=>({
 
 onAuthStateChanged(auth, (user) => {
     useAuthStore.getState().setUser(user);
+    console.log(user);
 });
