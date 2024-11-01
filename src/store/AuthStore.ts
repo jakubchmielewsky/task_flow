@@ -65,5 +65,4 @@ export const useAuthStore = create<AuthState>((set)=>({
 
 onAuthStateChanged(auth, (user) => {
     useAuthStore.getState().setUser(user);
-    console.log(user);
 });

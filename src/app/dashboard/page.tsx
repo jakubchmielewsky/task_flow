@@ -1,42 +1,46 @@
-"use client"
-import { useAuthRedirect } from "@/hooks/useAuthRedirect";
-import {FiPlus, FiClock} from "react-icons/fi";
-import SelectDropdown from "@/components/SelectDropdown";
+"use client";
+
 import { useState } from "react";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
+import { useAuthStore } from "@/store/AuthStore";
+import Nav from "@/components/nav";
+import Aside from "@/components/Aside";
 
-export default function Page(){
-    useAuthRedirect();
-    const [workspace, setWorkspace] = useState<string|undefined>();
-    const handleWorkspaceChange= (ws:string)=>{
-        setWorkspace(ws);
-    }
+const workspaces = ["Workspace", "work2", "Workspace", "work2"];
+const tables = [
+  { id: "table1", name: "Table 1" },
+  { id: "table2", name: "Table 2" },
+  { id: "table3", name: "Table 3" },
+];
+const workspaceMembers = [
+  { id: 1, name: "John Doe", role: "Admin", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" },
+  { id: 2, name: "Jane Smith", role: "Member", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80" },
+  { id: 3, name: "Mike Johnson", role: "Member", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" },
+];
 
-    return(
-        <div className="bg-gray-100 h-screen">
-            <nav className="w-full h-12 bg-white flex items-center px-2 text-gray-600 shadow-md justify-between">
-                <div className="flex">
-                    <h2 className="font-bold text-xl ">
-                        Task Flow
-                    </h2>
-                    <SelectDropdown selected={workspace} onSelectedChange={handleWorkspaceChange} options={["Workspace","work2","Workspace","work2","Workspace","work2","Workspace","work2"]}/>
-                    <button className="text-sm ml-2 hover:bg-gray-100 p-1 rounded-full"><FiPlus/></button>
-                </div>
-                <button className="flex text-sm items-center gap-2 hover:bg-gray-100 p-1 rounded-full"><FiClock/>Recent</button>
-                
-            </nav>
-            <div>
-                <aside>
-                    <h2>Tables</h2>
-                    <h2>Members</h2>
+export default function Page() {
+  useAuthRedirect();
 
-                    <div>
-                        <p>user panel</p>
-                    </div>
-                </aside>
-                <main>
+  const [workspace, setWorkspace] = useState<string | undefined>();
+  const [selectedTable, setSelectedTable] = useState<string | undefined>();
+  const [isAsideCollapsed, setIsAsideCollapsed] = useState<boolean>(false);
+  const user = useAuthStore((state) => state.user);
 
-                </main>
-            </div>
-        </div>
-    )
+  return (
+    <div className="flex flex-col bg-gray-100 h-screen text-gray-600">
+      <Nav workspace={workspace} onWorkspaceChange={setWorkspace} workspaces={workspaces} />
+      <div className="flex h-full">
+        <Aside
+          isAsideCollapsed={isAsideCollapsed}
+          tables={tables}
+          selectedTable={selectedTable}
+          onSelectTable={setSelectedTable}
+          onCollapseToggle={() => setIsAsideCollapsed(!isAsideCollapsed)}
+          workspaceMembers={workspaceMembers}
+          user={user}
+        />
+        <div></div>
+      </div>
+    </div>
+  );
 }
