@@ -4,16 +4,17 @@
 
 ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: rgb(229 231 235);
+    background: rgb(243 244 246);
     border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: rgb(75 85 99);
+    background: rgb(156 163 175);
     border-radius: 5px;
 }

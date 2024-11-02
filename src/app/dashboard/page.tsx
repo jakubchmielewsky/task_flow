@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import { useAuthStore } from "@/store/AuthStore";
-import Nav from "@/components/nav";
+import Nav from "@/components/Nav";
 import Aside from "@/components/Aside";
+import Main from "@/components/Main";
 
 const workspaces = ["Workspace", "work2", "Workspace", "work2"];
 const tables = [
@@ -23,13 +24,13 @@ export default function Page() {
 
   const [workspace, setWorkspace] = useState<string | undefined>();
   const [selectedTable, setSelectedTable] = useState<string | undefined>();
-  const [isAsideCollapsed, setIsAsideCollapsed] = useState<boolean>(false);
+  const [isAsideCollapsed, setIsAsideCollapsed] = useState<boolean>(true);
   const user = useAuthStore((state) => state.user);
 
   return (
-    <div className="flex flex-col bg-gray-100 h-screen text-gray-600">
+    <div className="flex flex-col bg-gray-100 h-screen max-h-screen text-gray-600">
       <Nav workspace={workspace} onWorkspaceChange={setWorkspace} workspaces={workspaces} />
-      <div className="flex h-full">
+      <div className="flex h-full overflow-auto">
         <Aside
           isAsideCollapsed={isAsideCollapsed}
           tables={tables}
@@ -39,7 +40,7 @@ export default function Page() {
           workspaceMembers={workspaceMembers}
           user={user}
         />
-        <div></div>
+        <Main/>
       </div>
     </div>
   );
