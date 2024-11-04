@@ -19,6 +19,9 @@ const workspaceMembers = [
   { id: 3, name: "Mike Johnson", role: "Member", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" },
 ];
 
+
+  
+
 export default function Page() {
   useAuthRedirect();
 
@@ -33,7 +36,7 @@ export default function Page() {
       <div className="flex h-full overflow-auto">
         <Aside
           isAsideCollapsed={isAsideCollapsed}
-          tables={tables}
+          boards={tables}
           selectedTable={selectedTable}
           onSelectTable={setSelectedTable}
           onCollapseToggle={() => setIsAsideCollapsed(!isAsideCollapsed)}

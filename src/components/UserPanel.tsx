@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { FiSettings, FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "@/store/AuthStore";
+import { User } from "firebase/auth";
 
 interface UserPanelProps {
   isAsideCollapsed: boolean;
-  user: { displayName: string; email: string } | null;
+  user: User | null;
 }
 
 export default function UserPanel({ isAsideCollapsed, user }: UserPanelProps) {

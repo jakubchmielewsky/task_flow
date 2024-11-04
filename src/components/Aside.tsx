@@ -1,20 +1,21 @@
 import UserPanel from "./UserPanel";
 import Image from "next/image";
 import { FiChevronLeft, FiChevronRight, FiTable, FiUser, FiUserPlus} from "react-icons/fi";
+import { User } from "firebase/auth";
 
 interface AsideProps {
   isAsideCollapsed: boolean;
-  tables: { id: string; name: string }[];
+  boards: { id: string; name: string }[];
   selectedTable: string | undefined;
   onSelectTable: (id: string) => void;
   onCollapseToggle: () => void;
   workspaceMembers: { id: number; name: string; role: string; avatar: string }[];
-  user: {displayName:string, email:string} | null;
+  user: User | null;
 }
 
 export default function Aside({
   isAsideCollapsed,
-  tables,
+  boards,
   selectedTable,
   onSelectTable,
   onCollapseToggle,
@@ -25,20 +26,20 @@ export default function Aside({
     <aside className={`flex flex-col justify-between bg-white shadow-md transition-all duration-200 ${isAsideCollapsed ? "w-16" : "w-52"}`}>
       <div className="w-full">
         <div className={`p-3 flex border-b items-center ${isAsideCollapsed ? "justify-center" : "justify-between"}`}>
-            <h2 className={`font-semibold ${isAsideCollapsed ? "hidden" : "block"}`}>Tables</h2>
+            <h2 className={`font-semibold ${isAsideCollapsed ? "hidden" : "block"}`}>Boards</h2>
             <button onClick={onCollapseToggle}>
                 {isAsideCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
             </button>
         </div>
         <ul className="flex flex-col p-2 max-h-96">
-            {tables.map((table) => (
+            {boards.map((board) => (
                 <li
-                    key={table.id}
-                    onClick={() => onSelectTable(table.id)}
-                    className={`flex items-center my-1 ${selectedTable === table.id ? "bg-blue-50 text-blue-500" : ""} h-10 rounded-xl truncate ${isAsideCollapsed && "justify-center"}`}
+                    key={board.id}
+                    onClick={() => onSelectTable(board.id)}
+                    className={`flex items-center my-1 ${selectedTable === board.id ? "bg-blue-50 text-blue-500" : ""} h-10 rounded-xl truncate ${isAsideCollapsed && "justify-center"}`}
                 >
                     <FiTable className="mx-3" />
-                    <p className="truncate">{!isAsideCollapsed && table.name}</p>
+                    <p className="truncate">{!isAsideCollapsed && board.name}</p>
                 </li>
             ))}
         </ul>
