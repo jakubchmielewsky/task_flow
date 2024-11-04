@@ -13,7 +13,7 @@ export default function UserPanel({ isAsideCollapsed, user }: UserPanelProps) {
 
 
   return (
-    <div className="h-32 border-t my-1 p-3">
+    <div className="h-36 border-t my-1 p-3">
       <div className="flex items-center">
         <Image
           className="mx-1 w-7 h-7 rounded-full object-cover"

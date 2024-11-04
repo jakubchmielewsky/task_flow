@@ -2,10 +2,8 @@
 import { useState } from "react";
 import { FaEyeSlash, FaEye, FaSpinner } from "react-icons/fa";
 import { useAuthStore } from "@/store/AuthStore";
-import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 
 export default function Login() {
-    useAuthRedirect();
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");

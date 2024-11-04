@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import { useAuthStore } from "@/store/AuthStore";
 import Nav from "@/components/Nav";
 import Aside from "@/components/Aside";
@@ -20,19 +19,15 @@ const workspaceMembers = [
 ];
 
 
-  
-
 export default function Page() {
-  useAuthRedirect();
-
-  const [workspace, setWorkspace] = useState<string | undefined>();
+  const [selectedWorkspace, setSelectedWorkspace] = useState<string | undefined>();
   const [selectedTable, setSelectedTable] = useState<string | undefined>();
   const [isAsideCollapsed, setIsAsideCollapsed] = useState<boolean>(true);
   const user = useAuthStore((state) => state.user);
 
   return (
     <div className="flex flex-col bg-gray-100 h-screen max-h-screen text-gray-600">
-      <Nav workspace={workspace} onWorkspaceChange={setWorkspace} workspaces={workspaces} />
+      <Nav workspace={selectedWorkspace} onWorkspaceChange={setSelectedWorkspace} workspaces={workspaces} />
       <div className="flex h-full overflow-auto">
         <Aside
           isAsideCollapsed={isAsideCollapsed}
