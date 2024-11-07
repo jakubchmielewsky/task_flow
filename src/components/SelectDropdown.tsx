@@ -20,7 +20,6 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, selected, onSe
     onSelectedChange(id);
     setIsOpen(false);
   };
-  console.log(selected);
 
   return (
     <div className="flex flex-col items-center gap-2 hover:bg-gray-100 py-1 px-2 rounded-full text-sm ml-5">
