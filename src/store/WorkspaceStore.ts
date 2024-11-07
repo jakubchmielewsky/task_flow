@@ -15,7 +15,7 @@ interface WorkspaceState{
     workspaces:{id: string, name: string, ownerId: string, members: string[]}[];
     selectedWorkspace: Workspace | null;
     loading: boolean;
-    loadWorkspaces: (uid: string)=> Unsubscribe;
+    loadWorkspaces: ()=> Unsubscribe | undefined;
     addWorkspace: (name: string)=> Promise<void>;
     addMember: (workspaceId: string, memberId: string) => Promise<void>;
     removeMember: (workspaceId: string, memberId: string) => Promise<void>;
@@ -30,21 +30,33 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get)=>({
     selectedWorkspace: null,
     loading: true,
 
-    loadWorkspaces: (uid) => {
+    loadWorkspaces: () => {
+        const user = useAuthStore.getState().user;
+
+
+        if (!user) {
+            console.error("User is not authenticated");
+            return () => {};
+        }
+        
+        const uid = user.uid;
         const workspacesRef = collection(db, 'workspaces');
         const q = query(workspacesRef, where('members', 'array-contains', uid));
 
+        set({ loading: true });
+
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const workspacesData = snapshot.docs.map((doc) => ({
-              id: doc.id,
-              name: doc.data().name,
-              members: doc.data().members,
-              ownerId: doc.data().ownerId,
+            id: doc.id,
+            name: doc.data().name,
+            members: doc.data().members,
+            ownerId: doc.data().ownerId,
             }));
             set({ workspaces: workspacesData, loading: false });
         });
-      
+    
         return unsubscribe;
+        
     },
 
     addWorkspace: async (name) => {

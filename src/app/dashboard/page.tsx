@@ -6,7 +6,6 @@ import Nav from "@/components/Nav";
 import Aside from "@/components/Aside";
 import Main from "@/components/Main";
 
-const workspaces = ["Workspace", "work2", "Workspace", "work2"];
 const tables = [
   { id: "table1", name: "Table 1" },
   { id: "table2", name: "Table 2" },
@@ -20,14 +19,14 @@ const workspaceMembers = [
 
 
 export default function Page() {
-  const [selectedWorkspace, setSelectedWorkspace] = useState<string | undefined>();
   const [selectedTable, setSelectedTable] = useState<string | undefined>();
   const [isAsideCollapsed, setIsAsideCollapsed] = useState<boolean>(true);
+  
   const user = useAuthStore((state) => state.user);
 
   return (
     <div className="flex flex-col bg-gray-100 h-screen max-h-screen text-gray-600">
-      <Nav workspace={selectedWorkspace} onWorkspaceChange={setSelectedWorkspace} workspaces={workspaces} />
+      <Nav/>
       <div className="flex h-full overflow-auto">
         <Aside
           isAsideCollapsed={isAsideCollapsed}
